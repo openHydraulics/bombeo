@@ -1,8 +1,8 @@
 %Datos bombas
 clear;clc
 
-%Marca Grundfoss
-%Modelo CR 
+%Marca Grundfos
+%Modelo ¿SP 77-6? 
 
 %Altura de elevación en m
 Hensayo=[71.4 70.4 65.8 60.2 53.8 48.0 42.5 69.3 73.6 77.7 81.7];
@@ -13,6 +13,8 @@ Qensayo=[39.5 42.7 57.9 71.7 82.2 88.9 94.8 43 32.5 19.2 0];
 %P en kW. Los 7 valores de potencia medidos se corresponden con los 7 primeros valores del caudal
 Pensayo=[14.7 14.9 16.3 17.1 17.7 18.1 18.5];
 rendensayo=(9806.65/3600/1000).*Hensayo(1:7).*Qensayo(1:7)./Pensayo;
+
+figura=figure;
 
 %Ajustes
 
@@ -85,7 +87,7 @@ subplot(2,2,3)
 plot(Qensayo(1:7),rendensayo,'o')
 axis([0 150 0 1])
 xlabel('Q(m3/h)')
-ylabel('P(kW)')
+ylabel('\eta')
 hold on
 plot(Qajust,rendajust,'-')
 title('b2 b1')
@@ -115,3 +117,7 @@ hold on
 plot(Qajust,Hajust,'-')
 title('a1 a0')
 hold off
+
+%Se escoge el mejor ajuste de los realizados
+%Tres parámetros H-Q y tres parámetros rend-Q
+paramjustes=[p20 p21]
