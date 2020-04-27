@@ -1,5 +1,6 @@
 %Datos bombas
 clear;clc
+close all
 
 %Marca Grundfos
 %Modelo ¿SP 77-6? 
@@ -14,7 +15,7 @@ Qensayo=[39.5 42.7 57.9 71.7 82.2 88.9 94.8 43 32.5 19.2 0];
 Pensayo=[14.7 14.9 16.3 17.1 17.7 18.1 18.5];
 rendensayo=(9806.65/3600/1000).*Hensayo(1:7).*Qensayo(1:7)./Pensayo;
 
-figura=figure;
+figura=figure();
 
 %Ajustes
 
@@ -121,3 +122,7 @@ hold off
 %Se escoge el mejor ajuste de los realizados
 %Tres parámetros H-Q y tres parámetros rend-Q
 paramjustes=[p20 p21]
+
+%Guarda la figura como jpg con el nombre figura.jpg
+%print(gcf,'figura.jpg', '-djpg','-r0')
+%print(figura,'fig2bombas.jpg', '-djpg','-r0')
