@@ -3,7 +3,6 @@
 addpath('src')
 
 datosBomba;
-
 Q=[];
 H=[];
 rot=[];
@@ -21,22 +20,66 @@ b2=paramjustes(4);
 b1=paramjustes(5);
 b0=paramjustes(6);
 
-%Cálculo caudal máximo según i bombas en funcionamiento;
-r=[1 1 1 1 1 1];
-numBombas=numel(r);
+%Cálculo puntos óptimos de puesta en marcha/parada según bombas en funcionamiento;
+rmax=[1 1 1 1 1 1];
+rmin=[0.5 0.5 0.5 0.5 0.5 0.5];
+rmin(1)=sqrt(c0/a0);
+numBombas=numel(rmax);
 
-for i=1:numBombas
-  raices=roots([a2/i^2-c2 a1*r(i)/i-c1 a0*r(i)^2-c0]);
-  Qmax(i)=raices(find(raices>0));
+rmaxant2=0.75.*rmax;
+rminant2=1.5.*rmin;
+rmaxant1=0.5.*rmax;
+rminant1=1.25.*rmin;
+z=0;
+while ((sum(rmax~=rmaxant2)>0 || sum(rmin~=rminant2>0)) && z<500)
+z++;
+  rmaxant2=rmaxant1;
+  rmaxant1=rmax;
+  rminant2=rminant1;
+  rminant1=rmin;
+    
+  for i=1:numBombas
+    raicesmax=roots([a2/i^2-c2 a1*rmax(i)/i-c1 a0*rmax(i)^2-c0]);
+    Qmax(i)=raicesmax(find(raicesmax>0));
+    [HQmax(i),rendQmax(i)]=HRendcurvscar(Qmax(i),rmax(i),[a2/i^2 a1/i a0 b2/i^2 b1/i b0]);
+    Hdivrendmax(i)=HQmax(i)/rendQmax(i);
+    
+    if i==1
+      Qmin(i)=0;
+      HQmin(i)=HQmax(i);
+      r(i)=0.5*rmax(i)+0.5*rmin(i);  
+    else
+      Qmin(i)=Qmax(i-1);
+      HQmin(i)=HQmax(i);
+      [rmin(i),rendQmin(i)]=rcurvscar(HQmin(i),Qmin(i),[a2/i^2 a1/i a0 b2/i^2 b1/i b0]);
+      Hdivrendmin(i)=HQmin(i)/rendQmin(i);
+      if Hdivrendmax(i-1)>Hdivrendmin(i)
+        rmax(i-1)=rmax(i-1)-0.001;
+        rmin(i)=rmin(i)+0.001;
+      else
+        rmax(i-1)=rmax(i-1)+0.001;
+        if rmax(i-1)>1
+          rmax(i-1)=1;
+        endif
+        rmin(i)=rmin(i)-0.001;
+      endif
+    endif
+  endfor
+endwhile
+
+disp(z)
+disp([rmax rmin])
   
+%Obtención de las curvas completas
+for i=1:numBombas
   if i==1
     Qcalc=1:1:Qmax(i);
   else
     Qcalc=Qmax(i-1):1:Qmax(i);
   endif
     
-  [HQmax,rendQmax]=HRendcurvscar(Qmax(i),r(i),[a2/i^2 a1/i a0 b2/i^2 b1/i b0]);
-  Hcalc=ones(1,numel(Qcalc)).*HQmax;
+  [HQmax(i),rendQmax(i)]=HRendcurvscar(Qmax(i),rmax(i),[a2/i^2 a1/i a0 b2/i^2 b1/i b0]);
+  Hcalc=ones(1,numel(Qcalc)).*HQmax(i);
     
   rcalc=[];
   rendcalc=[];
@@ -54,11 +97,11 @@ for i=1:numBombas
   %rend=ones(1,numel(Q));
 
 endfor
-    
+ 
 EneVol=9806.65/3.6e6.*H./rend;
 Henvol=c2.*Q.^2+c1.*Q+c0;
 
-figura3=figure;
+figura4=figure;
 subplot(1,2,1)
 [ax,lines1,lines2]=plotyy(Q,H,Q,EneVol);
 xlabel("Q(m3/h)")
