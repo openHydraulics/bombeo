@@ -11,7 +11,7 @@ rend=[];
 %Envolvente superior de los puntos H0(m),Q(m3/h) del sistema (ver tema Red de distribución)
 c0=37;
 c1=0;
-c2=(50-c0)/400^2;
+c2=(47-c0)/900^2;
 
 a2=paramjustes(1);
 a1=paramjustes(2);
@@ -21,8 +21,8 @@ b1=paramjustes(5);
 b0=paramjustes(6);
 
 %Cálculo puntos óptimos de puesta en marcha/parada según bombas en funcionamiento;
-rmax=[1 1 1 1 1 1];
-rmin=[0.5 0.5 0.5 0.5 0.5 0.5];
+rmax=[1 1 1 1 1 1 1 1 1 1];
+rmin=[0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5 0.5];
 rmin(1)=sqrt(c0/a0);
 numBombas=numel(rmax);
 

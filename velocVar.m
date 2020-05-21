@@ -12,7 +12,7 @@ rend=[];
 %Envolvente superior de los puntos H0(m),Q(m3/h) del sistema (ver tema Red de distribución)
 c0=37;
 c1=0;
-c2=(50-c0)/400^2;
+c2=(47-c0)/900^2;
 
 a2=paramjustes(1);
 a1=paramjustes(2);
@@ -22,7 +22,7 @@ b1=paramjustes(5);
 b0=paramjustes(6);
 
 %Cálculo caudal máximo según i bombas en funcionamiento;
-r=[1 1 1 1 1 1];
+r=[1 1 1 1 1 1 1 1 1 1];
 numBombas=numel(r);
 
 for i=1:numBombas
