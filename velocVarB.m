@@ -67,8 +67,10 @@ z++;
   endfor
 endwhile
 
+disp('Num. iteracciones')
 disp(z)
-disp([rmax rmin])
+disp('Vel. rotación max. y min. - puntos de cambio')
+disp([rmax; rmin])
   
 %Obtención de las curvas completas
 for i=1:numBombas
@@ -104,9 +106,9 @@ Henvol=c2.*Q.^2+c1.*Q+c0;
 figura4=figure;
 subplot(1,2,1)
 [ax,lines1,lines2]=plotyy(Q,H,Q,EneVol);
-xlabel("Q(m3/h)")
+xlabel("Q(m^{3}/h)")
 ylabel(ax(1), "H(m)")
-ylabel(ax(2), "E/V (kWh/m3)")
+ylabel(ax(2), "E/V (kWh/m^{3})")
 
 set(ax(1),'Xlim',[0 Qmax(end)])
 set(ax(1),'Ylim',[0 80])
@@ -121,7 +123,7 @@ hold off
 
 subplot(1,2,2)
 [ax,lines1,lines2]=plotyy(Q,rot,Q,rend);
-xlabel("Q(m3/h)")
+xlabel("Q(m^{3}/h)")
 ylabel(ax(1), "r")
 ylabel(ax(2), "rend")
 set(ax(1),'Xlim',[0 Qmax(end)])

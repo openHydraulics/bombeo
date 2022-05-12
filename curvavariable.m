@@ -22,7 +22,7 @@ endfor
 figura2=figure();
 
 [ax,lines1,lines2]=plotyy(Q,resultadoH,Q,resultadoRend);
-xlabel("Q(m3/h)")
+xlabel("Q(m^{3}/h)")
 ylabel(ax(1), "H(m)",'color','b')
 ylabel(ax(2), "rend.",'color','r')
 set(ax(1),'Xlim',[0 150])
